@@ -22,7 +22,15 @@ Graph::Graph(const string& filename) {
                 count++;
             }
             if (wordsFile.eof()) break;
-
         }
+    }
+}
 
+void Graph::addEdge(string from, string to) {
+    if (nodeID_map.find(from) == nodeID_map.end() || nodeID_map.find(to) == nodeID_map.end()) {
+        // at least one of these nodes don't exist
+        // this shouldn't be a problem since we are adding vertices only at the beginning.
+        return;
+    }
+    adj_matrix[nodeID_map[from]][nodeID_map[to]] = 1;
 }
