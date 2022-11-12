@@ -12,7 +12,7 @@ class Graph {
 		void addEdge(string from, string to);
 		// djikstra();
 	private:
-		// void populateMatrix(vector<pair<string, string>> edges);
+		void populateMatrix(vector<pair<string, string>> edges);
 		map<string, int> nodeID_map;
 
 		/*
