@@ -10,7 +10,7 @@ Taking into account the feedback our project mentor sent us, we also reworked an
 
 ## 11/12-18/2022 (week 3)
 
-Week 3
+This week we rewrote our project proposal again with a new dataset so that we could implement our algorithm with a weighted graph. We updated a bit of code in the repository as well as the other information in the repo to match our new project proposal, including adding the new dataset in the data directory. Our goal for next week is to implement and populate the adjacency matrix (no longer adjacency list) so we can start implementing algorithms on our dataset.
 
 ## 11/19-25/2022 (week 4)
 
