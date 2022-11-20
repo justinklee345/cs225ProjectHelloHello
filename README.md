@@ -1,9 +1,9 @@
 # CS225: Final Project: Six Degrees of Separation on Twitter
-Seeks to test the theory of 'six degrees of separation' on a dataset of Twitter social circles.
+Seeks to determine trustworthy transcations between users in a bitcoin network.
 ## Code
 All the code used to test our proposal.
 ## Data
-Dataset consisting of all combined Twitter circles in dataset. Stored as a txt file.
+Dataset consisting of ratings of one user from another on a bitcoin network. Stored as a csv file.
 ## Documents
 Development log and other documents pertaining to the final project.
 
