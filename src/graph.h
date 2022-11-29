@@ -9,8 +9,10 @@
 using namespace std;
 class Graph {
   	public:
+		Graph();
     	Graph(const string& filename);
 		int dijkstra(int src, int target) const;
+		void print();
 	private:
 		int minDistance(vector<int> distance, vector<bool> incShort) const;
 
