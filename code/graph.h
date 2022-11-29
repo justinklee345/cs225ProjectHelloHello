@@ -9,8 +9,8 @@ using namespace std;
 class Graph {
   	public:
     	Graph(const string& filename);
-		void addEdge(string from, string to, int weight);
-		int dijkstra(string src, string target) const;
+		void addEdge(int from, int to, int weight);
+		int dijkstra(int src, int target) const;
 	private:
 		void populateMatrix(vector<pair<pair<string, string>, int>> edges);
 		int minDistance(vector<int> distance, vector<bool> incShort) const;

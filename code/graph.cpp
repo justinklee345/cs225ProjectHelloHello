@@ -30,34 +30,30 @@ Graph::Graph(const string& filename) {
     num_nodes_ = adj_matrix.size();
 }
 
-void Graph::addEdge(string from, string to, int weight) {
-    if (nodeID_map.find(from) == nodeID_map.end() || nodeID_map.find(to) == nodeID_map.end()) {
+void Graph::addEdge(int from, int to, int weight) {
+    if (from < 0 || from > num_nodes_ || to < 0 || to > num_nodes_) {
         // at least one of these nodes don't exist
         // this shouldn't be a problem since we are adding edges only at the beginning and we check the vertices in populateMatrix func.
         return;
     }
-    adj_matrix[nodeID_map[from]][nodeID_map[to]] = weight;
+    adj_matrix[from][to] = weight;
 }
 
-void Graph::populateMatrix(vector<pair<pair<string, string>, int>> edges) {
-    for (const auto& edge : edges) {
-        if (nodeID_map.find(edge.first.first) == nodeID_map.end() || nodeID_map.find(edge.first.second) == nodeID_map.end()) {
-        // this means that we failed to add all the vertices in to the NodeID_map prior to calling this function.
-            return;
-        }
-        addEdge(edge.first.first, edge.first.second, edge.second);
-    }
-}
+// void Graph::populateMatrix(vector<pair<pair<string, string>, int>> edges) {
+//     for (const auto& edge : edges) {
+//         if (nodeID_map.find(edge.first.first) == nodeID_map.end() || nodeID_map.find(edge.first.second) == nodeID_map.end()) {
+//         // this means that we failed to add all the vertices in to the NodeID_map prior to calling this function.
+//             return;
+//         }
+//         addEdge(edge.first.first, edge.first.second, edge.second);
+//     }
+// }
 
-int Graph::get_id(string src) const {
-    return nodeID_map.find(src)->second;
-}
-
-int Graph::dijkstra(string src, string target) const {
+int Graph::dijkstra(int src, int target) const {
     vector<int> distance(adj_matrix.size(), INT_MAX);
     vector<bool> incShort(adj_matrix.size(), false);
 
-    distance[get_id(src)] = 0;
+    distance[src] = 0;
     for (int i = 0; i < num_nodes_ - 1; ++i) {
         int mindist = minDistance(distance, incShort);
         incShort[mindist] = true;
@@ -69,7 +65,7 @@ int Graph::dijkstra(string src, string target) const {
             }
         }
     }
-    return distance[get_id(target)];
+    return distance[target];
 }
 
 int Graph::minDistance(vector<int> distance, vector<bool> incShort) const {
