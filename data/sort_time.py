@@ -8,4 +8,4 @@ df = pd.read_csv('soc-sign-bitcoinalpha.csv', names=["SOURCE", "TARGET", "RATING
 df = df.sort_values(by=["TIME"])
 
 # write dataframe to new sorted csv
-df.to_csv('sorted_soc-sign-bitcoinalpha.csv', index=False)
+df.to_csv('sorted-soc-sign-bitcoinalpha.csv', index=False)
