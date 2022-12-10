@@ -32,4 +32,17 @@ int main() {
         cout << i << "->";
     }
     cout << endl;
+
+    cout << "dist: " << adj_mat.dijkstra(3450, 2665) << endl;
+    cout << "dist: " << adj_mat.dijkstra(3450, 1944) << endl;
+    cout << "dist: " << adj_mat.dijkstra(3450, 807) << endl;
+    cout << "dist: " << adj_mat.dijkstra(3450, 1849) << endl;
+    cout << "dist: " << adj_mat.dijkstra(3450, 1014) << endl;
+
+    // returns rating immediately if there is already rating between users
+    // otherwise returns distance between users, with shorter distances representing more trustworthy transcation paths
+    // a large number could also represent longer transaction paths, but we assume the longer the transaction path, the reliablity falls.
+    cout << "trust: " << adj_mat.trust(3450, 2665) << endl; // 61 since dijkstra runs
+    cout << "trust: " << adj_mat.trust(3450, 97) << endl; // 6 since rating already exists between two users
+
 }

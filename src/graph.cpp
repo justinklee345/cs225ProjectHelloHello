@@ -141,11 +141,18 @@ vector<int> Graph::bfs(int src) {
         path.push_back(curr);
         q.pop();
         for (int target=0; target<(int)adj_matrix[curr].size(); target++) {
-            if (adj_matrix[curr][target] >= 1 && visited[target]==false) {
+            if (adj_matrix[curr][target] > 0 && visited[target]==false) {
                 q.push(target);
                 visited[target] = true;
             }
         }
     }
     return path;
+}
+
+int Graph::trust(int src, int target) {
+    if (adj_matrix[src][target] > 0) {
+        return adj_matrix[src][target];
+    }
+    return dijkstra(src, target);
 }
