@@ -18,6 +18,7 @@ class Graph {
 		void print();
 		int getRating(int src, int target);
 		vector<int> bfs(int src);
+		int trust(int src, int target);
 	private:
 		int minDistance(vector<int> distance, vector<bool> incShort) const;
 
