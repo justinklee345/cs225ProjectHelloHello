@@ -3,9 +3,9 @@
 
 Graph::Graph() {
     vector<vector<int>> source;
-    for (int SOURCE=0; SOURCE<7604; SOURCE++) {
+    for (int SOURCE=0; SOURCE<0; SOURCE++) {
         vector<int> targets;
-        for (int TARGET=0; TARGET<7604; TARGET++) {
+        for (int TARGET=0; TARGET<0; TARGET++) {
             targets.push_back(0);
         }
         source.push_back(targets);
@@ -60,8 +60,8 @@ Graph::Graph(const string& filename) {
             str_stream >> TIME;
             // cout << SOURCE << ", " << TARGET << ", " << RATING << ", " << TIME << endl;
             // put rating in adjacency matrix
-            cout << "insert " << RATING << " into [" << SOURCE-1 << "][" << TARGET-1 << "]" << endl;
-            adj_matrix[SOURCE-1][TARGET-1] = RATING;
+            cout << "insert " << RATING << " into [" << SOURCE << "][" << TARGET << "]" << endl;
+            adj_matrix[SOURCE][TARGET] = RATING;
         }
     }
     input.close();
@@ -79,7 +79,7 @@ void Graph::print() {
 }
 
 int Graph::getRating(int src, int target) {
-    return adj_matrix[src-1][target-1];
+    return adj_matrix[src][target];
 }
 
 int Graph::dijkstra(int src, int target) const {
