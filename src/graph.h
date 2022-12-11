@@ -20,10 +20,10 @@ class Graph {
 		vector<int> bfs(int src);
 		int trust(int src, int target);
 
-		bool Kosaraju(int src, int target);
+		bool kosaraju(int src, int target);
 		void fillOrder(int x, vector<bool> & visited, stack<int> & s);
 		vector<vector<int>> getTranspose(vector<vector<int>> adj_matrix);
-		void DFSU(int x, vector<bool> & visited, vector<int> & scc);
+		void DFSU(int x, vector<bool> & visited, vector<int> & scc, vector<vector<int>> rev_adj_matrix);
 	private:
 		int minDistance(vector<int> distance, vector<bool> incShort) const;
 
