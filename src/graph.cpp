@@ -156,3 +156,83 @@ int Graph::trust(int src, int target) {
     }
     return dijkstra(src, target);
 }
+
+bool Graph::Kosaraju(int src, int target) {
+    vector<bool> visited;
+    vector<vector<int>> rev_adj_matrix;
+    stack<int> s;
+
+    for (int i=0; i<7604; i++) {
+        visited.push_back(false);
+    }
+    for (int i = 0; i <7604; i++) {
+        if (!visited[i]) {
+            fillOrder(i, visited, s);
+        }
+    }
+
+    rev_adj_matrix = getTranspose(adj_matrix);
+
+    for (int i=0; i<7604; i++) {
+        visited.push_back(false);
+    }
+
+    vector<vector<int>> output;
+    while (!s.empty()) {
+        int v = s.top();
+        s.pop();
+        if (!visited[v]) {
+            vector<int> scc;
+            DFSU(v, visited, scc);
+            output.push_back(scc);
+        }
+    }
+    
+    for (int i = 0; i < (int)output.size(); i++) {
+        if (std::find(output[i].begin(), output[i].end(), src) != output[i].end() &&
+        std::find(output[i].begin(), output[i].end(), target) != output[i].end()) {
+            return true;
+        }
+    }
+    return false;
+
+}
+
+void Graph::fillOrder(int x, vector<bool> & visited, stack<int> & s) {
+    visited[x] = true;
+    for (int target=0; target<(int)adj_matrix[x].size(); target++) {
+        if ((adj_matrix[x][target] > 0 && adj_matrix[x][target] < 11) && !visited[adj_matrix[x][target]]) {
+            fillOrder(adj_matrix[x][target], visited, s);
+        }
+    }
+    s.push(x);
+}
+
+vector<vector<int>> Graph::getTranspose(vector<vector<int>> adj_matrix) {
+    vector<vector<int>> rev_adj_matrix;
+
+    for (int SOURCE=0; SOURCE<7604; SOURCE++) {
+        vector<int> targets;
+        for (int TARGET=0; TARGET<7604; TARGET++) {
+            targets.push_back(0);
+        }
+        rev_adj_matrix.push_back(targets);
+    }
+
+    for (int i = 0; i < (int)adj_matrix.size(); i++) {
+        for (int j = 0; j < (int)adj_matrix[i].size(); j++) {
+            rev_adj_matrix[i][j] =  adj_matrix[j][i];
+        }
+    }
+    return rev_adj_matrix;
+}
+
+void Graph::DFSU(int x, vector<bool> & visited, vector<int> & scc) {
+    visited[x] = true;
+    scc.push_back(x);
+    for (int target=0; target<(int)adj_matrix[x].size(); target++) {
+        if ((adj_matrix[x][target] > 0 && adj_matrix[x][target] < 11) && !visited[adj_matrix[x][target]]) {
+            DFSU(adj_matrix[x][target], visited, scc);
+        }
+    }
+}
