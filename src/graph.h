@@ -19,6 +19,11 @@ class Graph {
 		int getRating(int src, int target);
 		vector<int> bfs(int src);
 		int trust(int src, int target);
+
+		bool Kosaraju(int src, int target);
+		void fillOrder(int x, vector<bool> & visited, stack<int> & s);
+		vector<vector<int>> getTranspose(vector<vector<int>> adj_matrix);
+		void DFSU(int x, vector<bool> & visited, vector<int> & scc);
 	private:
 		int minDistance(vector<int> distance, vector<bool> incShort) const;
 
