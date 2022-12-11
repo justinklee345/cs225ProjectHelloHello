@@ -13,22 +13,23 @@ Graph::Graph() {
 }
 
 // populate adjacency matrix with dataset
-Graph::Graph(const string& filename) {
+Graph::Graph(const string& filename, int size) {
+    size_ = size;
     vector<vector<int>> source;
-    for (int SOURCE=0; SOURCE<7604; SOURCE++) {
+    for (int SOURCE=0; SOURCE<size_; SOURCE++) {
         vector<int> targets;
-        for (int TARGET=0; TARGET<7604; TARGET++) {
+        for (int TARGET=0; TARGET<size_; TARGET++) {
             targets.push_back(0);
         }
         source.push_back(targets);
     }
     // initialized default matrix
     adj_matrix = source;
-    cout << "initialized default matrix" << endl;
+    // cout << "initialized default matrix" << endl;
 
     // create file input stream
     ifstream input(filename);
-    cout << "created file input stream" << endl;
+    // cout << "created file input stream" << endl;
 
     if (!input.is_open()) {
         cout << "file isn't open" << endl;
@@ -39,13 +40,13 @@ Graph::Graph(const string& filename) {
 
     // ensure file is open
     if (input.is_open()) {
-        cout << "file is open" << endl;
+        // cout << "file is open" << endl;
         // read in lines from file
         string line;
         // get column names
         getline(input, line);
 
-        cout << "header: " << line << endl;
+        // cout << "header: " << line << endl;
         int SOURCE, TARGET, RATING, TIME;
         while (getline(input, line)) {
             // cout << "line: " << line << endl;
@@ -64,7 +65,7 @@ Graph::Graph(const string& filename) {
             RATING = RATING + 11;
             // now a rating of -10 is 21, having the greatest weight, and a rating of 10 is 1, having the least weight
             // thus, the path with the greatest distance will be the least reliable transaction path
-            cout << "insert " << RATING << " into [" << SOURCE << "][" << TARGET << "]" << endl;
+            // cout << "insert " << RATING << " into [" << SOURCE << "][" << TARGET << "]" << endl;
             adj_matrix[SOURCE][TARGET] = RATING;
 
 
@@ -75,8 +76,8 @@ Graph::Graph(const string& filename) {
 
 
 void Graph::print() {
-    for (int SOURCE=0; SOURCE<7604; SOURCE++) {
-        for (int TARGET=0; TARGET<7604; TARGET++) {
+    for (int SOURCE=0; SOURCE<size_; SOURCE++) {
+        for (int TARGET=0; TARGET<size_; TARGET++) {
             cout << adj_matrix[SOURCE][TARGET] << ' ';
         }
         cout << endl;
@@ -129,7 +130,7 @@ const vector<vector<int>>& Graph::getMatrix() const {
 vector<int> Graph::bfs(int src) {
     vector<int> path;
     vector<bool> visited;
-    for (int i=0; i<7604; i++) {
+    for (int i=0; i<size_; i++) {
         visited.push_back(false);
     }
     queue<int> q;
@@ -154,7 +155,8 @@ int Graph::trust(int src, int target) {
     if (adj_matrix[src][target] > 0) {
         return adj_matrix[src][target];
     }
-    return dijkstra(src, target);
+    // return dijkstra(src, target);
+    return -1;
 }
 
 bool Graph::Kosaraju(int src, int target) {
