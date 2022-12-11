@@ -6,6 +6,7 @@
 #include <cstring>
 #include <map>
 #include <bits/stdc++.h>
+#include <queue>
 
 using namespace std;
 class Graph {
@@ -16,6 +17,8 @@ class Graph {
 		const vector<vector<int>>& getMatrix() const;
 		void print();
 		int getRating(int src, int target);
+		vector<int> bfs(int src);
+		int trust(int src, int target);
 	private:
 		int minDistance(vector<int> distance, vector<bool> incShort) const;
 

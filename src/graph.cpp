@@ -3,9 +3,9 @@
 
 Graph::Graph() {
     vector<vector<int>> source;
-    for (int SOURCE=0; SOURCE<7604; SOURCE++) {
+    for (int SOURCE=0; SOURCE<0; SOURCE++) {
         vector<int> targets;
-        for (int TARGET=0; TARGET<7604; TARGET++) {
+        for (int TARGET=0; TARGET<0; TARGET++) {
             targets.push_back(0);
         }
         source.push_back(targets);
@@ -58,10 +58,16 @@ Graph::Graph(const string& filename) {
             str_stream >> RATING;
             str_stream.ignore();
             str_stream >> TIME;
-            // cout << SOURCE << ", " << TARGET << ", " << RATING << ", " << TIME << endl;
-            // put rating in adjacency matrix
-            cout << "insert " << RATING << " into [" << SOURCE-1 << "][" << TARGET-1 << "]" << endl;
-            adj_matrix[SOURCE-1][TARGET-1] = RATING;
+            // so that negative ratings are weighted higher
+            RATING = RATING * -1;
+            // so that ratings go from 1 to 21 since 0 represents no rating
+            RATING = RATING + 11;
+            // now a rating of -10 is 21, having the greatest weight, and a rating of 10 is 1, having the least weight
+            // thus, the path with the greatest distance will be the least reliable transaction path
+            cout << "insert " << RATING << " into [" << SOURCE << "][" << TARGET << "]" << endl;
+            adj_matrix[SOURCE][TARGET] = RATING;
+
+
         }
     }
     input.close();
@@ -79,7 +85,7 @@ void Graph::print() {
 }
 
 int Graph::getRating(int src, int target) {
-    return adj_matrix[src-1][target-1];
+    return adj_matrix[src][target];
 }
 
 int Graph::dijkstra(int src, int target) const {
@@ -118,4 +124,35 @@ int Graph::minDistance(vector<int> distance, vector<bool> incShort) const {
 
 const vector<vector<int>>& Graph::getMatrix() const {
     return adj_matrix;
+}
+
+vector<int> Graph::bfs(int src) {
+    vector<int> path;
+    vector<bool> visited;
+    for (int i=0; i<7604; i++) {
+        visited.push_back(false);
+    }
+    queue<int> q;
+    q.push(src);
+    visited[src] = true;
+
+    while (!q.empty()) {
+        int curr = q.front();
+        path.push_back(curr);
+        q.pop();
+        for (int target=0; target<(int)adj_matrix[curr].size(); target++) {
+            if (adj_matrix[curr][target] > 0 && visited[target]==false) {
+                q.push(target);
+                visited[target] = true;
+            }
+        }
+    }
+    return path;
+}
+
+int Graph::trust(int src, int target) {
+    if (adj_matrix[src][target] > 0) {
+        return adj_matrix[src][target];
+    }
+    return dijkstra(src, target);
 }
