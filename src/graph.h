@@ -17,12 +17,8 @@ class Graph {
 		// constructor for populating the adj. matrix from our dataset
     	Graph(const string& filename, int size);
 
-		// standard getter methods for the rating and the entire adj. matrix
+		// standard getter method for the rating
 		int getRating(int src, int target);
-		const vector<vector<int>>& getMatrix() const;
-
-		// print adj. matrix
-		void print();
 
 		// bfs
 		vector<int> bfs(int src);
