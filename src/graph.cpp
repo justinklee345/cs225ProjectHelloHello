@@ -64,22 +64,6 @@ int Graph::getRating(int src, int target) {
     return adj_matrix[src][target];
 }
 
-// returns the adjacency matrix
-const vector<vector<int>>& Graph::getMatrix() const {
-    return adj_matrix;
-}
-
-// prints out the adjacency matrix
-void Graph::print() {
-    for (int SOURCE=0; SOURCE<size_; SOURCE++) {
-        for (int TARGET=0; TARGET<size_; TARGET++) {
-            cout << adj_matrix[SOURCE][TARGET] << ' ';
-        }
-        cout << endl;
-    }
-    cout << endl;
-}
-
 // bfs traverses through the adjacency matrix starting from node src
 vector<int> Graph::bfs(int src) {
     vector<int> path;
