@@ -1,7 +1,7 @@
 #include "graph.h"
 #include <bits/stdc++.h>
 
-// just a default constructor setting all values in the adj. matrix to be 0.
+// default constructor for adjacency matrix
 Graph::Graph() {
     vector<vector<int>> source;
     for (int SOURCE=0; SOURCE<0; SOURCE++) {
@@ -15,6 +15,7 @@ Graph::Graph() {
 
 // populate adjacency matrix with dataset
 Graph::Graph(const string& filename, int size) {
+    // initialize empty size by size matrix
     size_ = size;
     vector<vector<int>> source;
     for (int SOURCE=0; SOURCE<size_; SOURCE++) {
@@ -24,34 +25,20 @@ Graph::Graph(const string& filename, int size) {
         }
         source.push_back(targets);
     }
-    // initialized default matrix
     adj_matrix = source;
-    // cout << "initialized default matrix" << endl;
-    // create file input stream
-
     ifstream input(filename);
-    // cout << "created file input stream" << endl;
-
     if (!input.is_open()) {
         cout << "file isn't open" << endl;
     }
     if (!input) {
     perror("open failure");
     }
-
-    // ensure file is open
     if (input.is_open()) {
-        // cout << "file is open" << endl;
-        // read in lines from file
         string line;
-        // get column names
         getline(input, line);
-
-        // cout << "header: " << line << endl;
         int SOURCE, TARGET, RATING, TIME;
+        // while we can read lines, take in data values
         while (getline(input, line)) {
-            // cout << "line: " << line << endl;
-            // create line string stream
             stringstream str_stream(line);
             str_stream >> SOURCE;
             str_stream.ignore();
@@ -60,27 +47,29 @@ Graph::Graph(const string& filename, int size) {
             str_stream >> RATING;
             str_stream.ignore();
             str_stream >> TIME;
-            // so that negative ratings are weighted higher
+            // scale rating so that negative ratings are weighted higher
             RATING = RATING * -1;
-            // so that ratings go from 1 to 21 since 0 represents no rating
+            // scale rating so that they go from 1 to 21
             RATING = RATING + 11;
             // now a rating of -10 is 21, having the greatest weight, and a rating of 10 is 1, having the least weight
             // thus, the path with the greatest distance will be the least reliable transaction path
-            // cout << "insert " << RATING << " into [" << SOURCE << "][" << TARGET << "]" << endl;
             adj_matrix[SOURCE][TARGET] = RATING;
         }
     }
     input.close();
 }
 
+// return latest rating of transaction from src to target
 int Graph::getRating(int src, int target) {
     return adj_matrix[src][target];
 }
 
+// returns the adjacency matrix
 const vector<vector<int>>& Graph::getMatrix() const {
     return adj_matrix;
 }
 
+// prints out the adjacency matrix
 void Graph::print() {
     for (int SOURCE=0; SOURCE<size_; SOURCE++) {
         for (int TARGET=0; TARGET<size_; TARGET++) {
@@ -91,6 +80,7 @@ void Graph::print() {
     cout << endl;
 }
 
+// bfs traverses through the adjacency matrix starting from node src
 vector<int> Graph::bfs(int src) {
     vector<int> path;
     vector<bool> visited;
@@ -189,18 +179,6 @@ bool Graph::kosaraju(int src, int target) {
             return true;
         }
     }
-    /*
-    for testing and running the connected components
-    std::cout << (int)output.size() << std::endl;
-    for (int i = 0; i < (int)output.size(); i++) {
-        cout << i << ": ";
-        for (int j = 0; j < (int)output[i].size(); j++) {
-
-            cout << output[i][j] << ", ";
-        }
-        std::cout << std::endl;
-    }
-    */
     return false;
 }
 
