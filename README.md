@@ -58,7 +58,7 @@ The written report is saved as a results.md file.
 
 ## Video Presentation
 
-Video is public on google drive: **insert link here**
+Video is public on google drive: https://drive.google.com/file/d/1lyMh1jeRsuUKmVibYU54mcEVqva7049e/view?usp=sharing
 
 ## Documents
 
