@@ -12,7 +12,7 @@ Taking into account the feedback our project mentor sent us, we also reworked an
 
 This week we rewrote our project proposal again with a new dataset so that we could implement our algorithm with a weighted graph. We updated a bit of code in the repository as well as the other information in the repo to match our new project proposal, including adding the new dataset in the data directory. Our goal for next week is to implement and populate the adjacency matrix (no longer adjacency list) so we can start implementing algorithms on our dataset.
 
-## 11/19 - 11/27/2022 
+## 11/19 - 11/27/2022
 
 Fall break.
 
@@ -22,4 +22,4 @@ This week we finalized our constructor to populate a graph with our dataset. We 
 
 ## 12/03 - 12/12/2022
 
-Zero indexed data so node ids correspond with adjacency graph indexes. (in progress)
+Zero indexed data so node ids correspond with adjacency graph indexes. Finished Kosaraju's algo and added tests. Added changes to main.cpp so that we output our results from running the algorithms. Finalized everything and made sure everything functions. Recorded final presentation and submitted our project.

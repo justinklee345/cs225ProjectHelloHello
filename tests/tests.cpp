@@ -94,5 +94,4 @@ TEST_CASE("Kosaraju Algorithm Test (Small)", "[weight=5]") {
     Graph testing("../tests/algorithmTest.csv", 6);
 
     REQUIRE(testing.kosaraju(1, 2) == true);
-  
 }

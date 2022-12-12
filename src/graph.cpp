@@ -1,6 +1,7 @@
 #include "graph.h"
 #include <bits/stdc++.h>
 
+// just a default constructor setting all values in the adj. matrix to be 0.
 Graph::Graph() {
     vector<vector<int>> source;
     for (int SOURCE=0; SOURCE<0; SOURCE++) {
@@ -26,8 +27,8 @@ Graph::Graph(const string& filename, int size) {
     // initialized default matrix
     adj_matrix = source;
     // cout << "initialized default matrix" << endl;
-
     // create file input stream
+
     ifstream input(filename);
     // cout << "created file input stream" << endl;
 
@@ -67,13 +68,18 @@ Graph::Graph(const string& filename, int size) {
             // thus, the path with the greatest distance will be the least reliable transaction path
             // cout << "insert " << RATING << " into [" << SOURCE << "][" << TARGET << "]" << endl;
             adj_matrix[SOURCE][TARGET] = RATING;
-
-
         }
     }
     input.close();
 }
 
+int Graph::getRating(int src, int target) {
+    return adj_matrix[src][target];
+}
+
+const vector<vector<int>>& Graph::getMatrix() const {
+    return adj_matrix;
+}
 
 void Graph::print() {
     for (int SOURCE=0; SOURCE<size_; SOURCE++) {
@@ -85,8 +91,28 @@ void Graph::print() {
     cout << endl;
 }
 
-int Graph::getRating(int src, int target) {
-    return adj_matrix[src][target];
+vector<int> Graph::bfs(int src) {
+    vector<int> path;
+    vector<bool> visited;
+    for (int i=0; i<size_; i++) {
+        visited.push_back(false);
+    }
+    queue<int> q;
+    q.push(src);
+    visited[src] = true;
+
+    while (!q.empty()) {
+        int curr = q.front();
+        path.push_back(curr);
+        q.pop();
+        for (int target=0; target<(int)adj_matrix[curr].size(); target++) {
+            if (adj_matrix[curr][target] > 0 && visited[target]==false) {
+                q.push(target);
+                visited[target] = true;
+            }
+        }
+    }
+    return path;
 }
 
 int Graph::dijkstra(int src, int target) const {
@@ -123,72 +149,30 @@ int Graph::minDistance(vector<int> distance, vector<bool> incShort) const {
     return min_idx;
 }
 
-const vector<vector<int>>& Graph::getMatrix() const {
-    return adj_matrix;
-}
-
-vector<int> Graph::bfs(int src) {
-    vector<int> path;
-    vector<bool> visited;
-    for (int i=0; i<size_; i++) {
-        visited.push_back(false);
-    }
-    queue<int> q;
-    q.push(src);
-    visited[src] = true;
-
-    while (!q.empty()) {
-        int curr = q.front();
-        path.push_back(curr);
-        q.pop();
-        for (int target=0; target<(int)adj_matrix[curr].size(); target++) {
-            if (adj_matrix[curr][target] > 0 && visited[target]==false) {
-                q.push(target);
-                visited[target] = true;
-            }
-        }
-    }
-    return path;
-}
-
-int Graph::trust(int src, int target) {
-    if (adj_matrix[src][target] > 0) {
-        return adj_matrix[src][target];
-    }
-    // return dijkstra(src, target);
-    return -1;
-}
-
 bool Graph::kosaraju(int src, int target) {
     vector<bool> visited;
     vector<vector<int>> rev_adj_matrix;
     stack<int> s;
 
-    // std::cout << "hi1" << std::endl;
-
     for (int i=0; i< size_; i++) {
         visited.push_back(false);
     }
-    // std::cout << "hi2" << std::endl;
     for (int i = 0; i < size_; i++) {
         if (!visited[i]) {
             fillOrder(i, visited, s);
         }
     }
 
-    // std::cout << "hi" << std::endl;
-
     rev_adj_matrix = getTranspose(adj_matrix);
 
     for (int i=0; i< size_; i++) {
         visited[i] = false;
     }
-    // std::cout << "hi" << std::endl;
     vector<vector<int>> output;
-    // std::cout << !s.empty() << std::endl;
     int c = 0;
+
     while (!s.empty()) {
-        std::cout << c << std::endl;
+        // std::cout << c << std::endl;
         c++;
         int v = s.top();
         s.pop();
@@ -198,8 +182,7 @@ bool Graph::kosaraju(int src, int target) {
             output.push_back(scc);
         }
     }
-    
-    
+
     for (int i = 0; i < (int)output.size(); i++) {
         if (std::find(output[i].begin(), output[i].end(), src) != output[i].end() &&
         std::find(output[i].begin(), output[i].end(), target) != output[i].end()) {
@@ -207,28 +190,21 @@ bool Graph::kosaraju(int src, int target) {
         }
     }
     /*
+    for testing and running the connected components
     std::cout << (int)output.size() << std::endl;
     for (int i = 0; i < (int)output.size(); i++) {
+        cout << i << ": ";
         for (int j = 0; j < (int)output[i].size(); j++) {
-            std::cout << output[i][j];
+
+            cout << output[i][j] << ", ";
         }
         std::cout << std::endl;
     }
     */
     return false;
-
 }
 
-void Graph::fillOrder(int x, vector<bool> & visited, stack<int> & s) {
-    visited[x] = true;
-    for (int target=0; target<(int)adj_matrix[x].size(); target++) {
-        if ((adj_matrix[x][target] > 0 && adj_matrix[x][target] < 11) && !visited[target]) {
-            fillOrder(target, visited, s);
-        }
-    }
-    s.push(x);
-}
-
+// helper function for kosaraju (returns the transposed adj. matrix for the reverse direction dfs that kosaraju uses)
 vector<vector<int>> Graph::getTranspose(vector<vector<int>> adj_matrix) {
     vector<vector<int>> rev_adj_matrix;
 
@@ -248,7 +224,19 @@ vector<vector<int>> Graph::getTranspose(vector<vector<int>> adj_matrix) {
     return rev_adj_matrix;
 }
 
-void Graph::DFSU(int x, vector<bool> & visited, vector<int> & scc, vector<vector<int>> rev_adj_matrix) {
+// recursive dfs function for kosaraju
+void Graph::fillOrder(int x, vector<bool> & visited, stack<int> & s) {
+    visited[x] = true;
+    for (int target=0; target<(int)adj_matrix[x].size(); target++) {
+        if ((adj_matrix[x][target] > 0 && adj_matrix[x][target] < 11) && !visited[target]) {
+            fillOrder(target, visited, s);
+        }
+    }
+    s.push(x);
+}
+
+// helper function for kosaraju
+void Graph::DFSU(int x, vector<bool> & visited, vector<int> & scc, const vector<vector<int>>& rev_adj_matrix) {
     visited[x] = true;
     scc.push_back(x);
     for (int target=0; target<(int)rev_adj_matrix[x].size(); target++) {
@@ -256,4 +244,26 @@ void Graph::DFSU(int x, vector<bool> & visited, vector<int> & scc, vector<vector
             DFSU(target, visited, scc, rev_adj_matrix);
         }
     }
+}
+
+// primary procedure for finding the trustworthiness between src and target.
+bool Graph::trust(int src, int target) {
+    if (adj_matrix[src][target] > 0 && adj_matrix[src][target] < 11) {
+        cout << "There is a direct trustworthy rating between src and target!" << endl;
+        return true;
+    }
+    if (adj_matrix[src][target] > 11) {
+        cout << "There is a direct untrustworthy rating between src and target!" << endl;
+        return false;
+    }
+    if (kosaraju(src, target)) {
+        cout << "The src and target are in the same strongly connected components where all edges are trustworthy!" << endl;
+        return true;
+    }
+    if (dijkstra(src, target) < 35) {
+        cout << "The src and target have a shortest trustworthy path between each other that is less than our threshold of 35!" << endl;
+        return true;
+    }
+    cout << "The src and target shouldn't make a transaction (not trustworthy enough)!" << endl;
+    return false;
 }
