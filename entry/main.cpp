@@ -1,8 +1,9 @@
 #include <iostream>
 #include "../src/graph.h"
 
-int main() {
-    Graph bitcoinRatings("../data/sorted-zero-soc-sign-bitcoinalpha.csv", 7604);
+int main(int argc, char *argv[]) {
+    int size = std::atoi(argv[2]);
+    Graph bitcoinRatings(argv[1], size);
 
     bool val = bitcoinRatings.trust(1201, 603);
     cout << "Is there trust between User 1201 and User 603? ";
