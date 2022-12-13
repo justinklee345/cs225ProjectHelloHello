@@ -1,16 +1,7 @@
-# Output and correctness of each algorithm
+###Our Writte Report
 
-<!---
-You should summarize, visualize, or highlight some part of the full-scale run of each algorithm.
-Additionally, the report should briefly describe what tests you performed to confirm that each 
-algorithm was working as intended.
--->
-
-# answer to leading question
-
-<!---
-You should direct address your proposed leading question.
-How did you answer this question? What did you discover?
-If your project was ultimately unsuccessful,
-give a brief reflection about what worked and what you would do differently as a team.
--->
+Kosaraju’s algorithm can be considered as an extension of DFS, except that we would be performing DFS two times. This algorithm works with strongly connected components in the graph as bitcoin users can trade within their own groups, which may be related to trading more frequently with those with higher trust factors. This may create strongly connected components and by implementing Kosaraju’s algorithm we can see if this observation is correct. If there are no strongly connected components, then it will return the list of all nodes separately. Essentially, you do a DFS traversal on the graph and then you transpose the graph so that all edges are directed in the opposite direction. You do a DFS traversal again on the transposed graph. In order to test Kosaraju's algorithm, we created two smaller datasets that mirror the features of the actual dataset and drew out the graph (as can be seen inside /tests/tests.cpp) to look for strongly connected components ourselves. After we were able to find the cycles, we used our Kosaraju implementation to see if its results matched ours. We checked for instances in which there was no connected component and instances in which there were connected components composed of positive ratings. We were able to get all the tests to pass and confirm that our algorithm worked.
+ 
+Dijkstra’s algorithm is the most popular technique used in path-finding and graph traversals. This algorithm finds the shortest path between the start node and the end node in a graph. In the dataset of Bitcoin Alpha trust weighted signed network, each edge weight represents how trusted/distrusted the target is by the source and is based on the outcome of previous transactions between the two parties. This method of keeping a rating of each user’s “overall reputation” is necessary in making bitcoin a reliable cryptocurrency as users are anonymous. Thus, if a user doesn’t want to risk making a transaction to someone that they have no information about, they can use the Dijkstra shortest path algorithm to find out whether or not the other user is trustworthy enough. In order to test the dijkstra’s algorithm, we created smaller datasets mentioned above with Kosaraju testing and drew out the graph as can be seen inside /tests/tests.cpp. We picked two random nodes and calculated the length of the shortest path. We cross-checked with our implemented dijkstra’s algorithm and we were able to confirm that the dijkstra was functioning correctly.
+ 
+Implementing the two algorithms, we ultimately tried to decide on making a transaction with an unknown user in the bitcoin trading platform “Bitcoin Alpha.” We were able to successfully construct and run both Kosaraju’s and Dijkstra’s algorithm with real datasets provided from the Stanford large network dataset collection. We have found out that there was a single large strongly connected component meaning there is a group of users that trust each other to ensure bitcoin transactions. We also found out that more often than not, the ratings of transactions were positive and mostly successful. We could see this from dijkstra’s algorithm, in which there was usually a path from one node to another and those paths were usually pretty positively rated. From this, we could infer the security and the safety of most bitcoin transactions, boosting our confidence in bitcoin. Overall, our project was a success and we were able to learn a lot about the different algorithms and gain hands-on experience using data structures with real-life data.
