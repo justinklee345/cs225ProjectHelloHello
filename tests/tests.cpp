@@ -94,4 +94,17 @@ TEST_CASE("Kosaraju Algorithm Test (Small)", "[weight=5]") {
     Graph testing("../tests/algorithmTest.csv", 6);
 
     REQUIRE(testing.kosaraju(1, 2) == true);
+    REQUIRE(testing.kosaraju(5, 0) == false);
+}
+
+TEST_CASE("Kosaraju Algorithm Test (Big)", "[weight=5]") {
+    Graph testing("../tests/algorithmTest.csv", 6);
+
+    REQUIRE(testing.kosaraju(1, 2) == true);
+    REQUIRE(testing.kosaraju(1, 3) == true);
+    REQUIRE(testing.kosaraju(0, 2) == true);
+    REQUIRE(testing.kosaraju(0, 3) == true);
+    REQUIRE(testing.kosaraju(4, 3) == false);
+    REQUIRE(testing.kosaraju(5, 0) == false);
+    REQUIRE(testing.kosaraju(4, 5) == false);
 }
